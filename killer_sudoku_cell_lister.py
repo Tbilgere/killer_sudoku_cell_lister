@@ -24,16 +24,16 @@ def search_cells(cells, target, size=0):
 
 def clean_search(cells, target):
     cleaned = []
-    raw = search_cells(cells, target)
-    if raw:
-        for_cell = []
-        for i in range(len(raw[0])):
+    raw_combos = search_cells(cells, target)
+    if raw_combos:
+        cells = []
+        for index in range(len(raw_combos[0])):
             single_cell = []
-            for r in raw:
-                single_cell.append(r[i])
-            for_cell.append(single_cell)
-        for f in for_cell:
-            cleaned.append(dedupe(f))
+            for combo in raw_combos:
+                single_cell.append(combo[index])
+            cells.append(single_cell)
+        for cell in cells:
+            cleaned.append(dedupe(cell))
         cleaned.reverse()
     return cleaned
 
@@ -49,10 +49,10 @@ def validate_input(val):
 
 while True:
     print('Welcome you filthy cheater')
-    print('Enter empty to continue, q to quit')
+    print('Press Enter to continue, q to quit')
     cell_list_s = []
     while True:
-        cell_val = input('Enter Cell values:')
+        cell_val = input('Cell values:')
         if not validate_input(cell_val):
             break
         else:
@@ -74,7 +74,7 @@ while True:
                 except:
                     # Shouldn't be able to reach this state... 
                     os.system('clear')
-                    print('Invalide input found goodbye.')
+                    print('Invalid input found goodbye.')
                     break
             cell_list.append(cell)
         results = clean_search(cell_list, target)
@@ -83,5 +83,5 @@ while True:
         for input_cell, result_cell in zip(cell_list, results):
             diff_list.append([val for val in input_cell if val not in result_cell])
         print(f"Unuseable values: {diff_list}")
-    input('Press any key to startover')
+    input('Press Enter to startover')
     os.system('clear')
